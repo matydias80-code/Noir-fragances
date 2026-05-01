@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOIR Fragances — Fragancias de Lujo</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --b:#A1C3DD;--bl:#C5DAEA;--bd:#7AABC8;
+  --noir:#080808;--noir2:#101010;--noir3:#181818;
+  --cr:#F0EBE0;--cd:#A8A39E;
+}
+html{scroll-behavior:smooth}
+body{background:var(--noir);color:var(--cr);font-family:'Montserrat',sans-serif;overflow-x:hidden}
+canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+a{text-decoration:none}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1rem 3rem;background:rgba(8,8,8,0.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(161,195,221,0.1)}
+.nlogo{height:42px;width:auto;object-fit:contain}
+.nlinks{display:flex;gap:2rem;list-style:none}
+.nlinks a{color:var(--cd);font-size:.67rem;letter-spacing:.25em;text-transform:uppercase;transition:color .3s}
+.nlinks a:hover{color:var(--b)}
+.nwa{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem 1.3rem;border:1px solid var(--b);color:var(--b);font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;transition:all .3s;font-family:'Montserrat',sans-serif}
+.nwa:hover{background:var(--b);color:var(--noir)}
+.nwa svg{width:15px;height:15px;fill:currentColor}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:6rem 2rem 4rem}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 55% 65% at 35% 50%,rgba(161,195,221,.07),transparent 65%),var(--noir)}
+.hcont{position:relative;z-index:2;text-align:center;max-width:700px}
+.hey{font-size:.58rem;letter-spacing:.55em;text-transform:uppercase;color:var(--b);margin-bottom:1.5rem;animation:fu 1.2s ease both}
+.hlogo{height:110px;width:auto;margin:0 auto;display:block;animation:fu 1.2s ease .2s both}
+.hsub{font-size:.75rem;letter-spacing:.28em;text-transform:uppercase;color:var(--cd);margin-top:1.8rem;line-height:2.4;animation:fu 1.2s ease .45s both}
+.hbtns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:2.2rem;animation:fu 1.2s ease .6s both}
+.btn-b{display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 2.2rem;background:var(--b);color:var(--noir);font-size:.63rem;letter-spacing:.3em;text-transform:uppercase;font-weight:700;transition:background .3s;font-family:'Montserrat',sans-serif}
+.btn-b:hover{background:var(--bl)}
+.btn-b svg{width:17px;height:17px;fill:currentColor}
+.btn-o{display:inline-block;padding:.9rem 2.2rem;border:1px solid var(--b);color:var(--b);font-size:.63rem;letter-spacing:.3em;text-transform:uppercase;transition:all .3s}
+.btn-o:hover{background:rgba(161,195,221,.08)}
+.hscroll{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.4rem;color:var(--cd);font-size:.5rem;letter-spacing:.3em;text-transform:uppercase;animation:pd 2s infinite}
+.hscroll-line{width:1px;height:50px;background:linear-gradient(to bottom,var(--b),transparent)}
+
+/* DIVIDER */
+.div{width:100%;height:1px;background:linear-gradient(to right,transparent,var(--b),transparent);opacity:.25}
+
+/* PROMISE */
+.promise{padding:5rem 3rem;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;max-width:1200px;margin:0 auto}
+.slabel{font-size:.55rem;letter-spacing:.55em;text-transform:uppercase;color:var(--b);margin-bottom:1rem;display:block}
+.ph2{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,3.5vw,3.2rem);font-weight:300;line-height:1.2;color:var(--cr)}
+.ph2 em{color:var(--b);font-style:italic}
+.pp{margin-top:1.2rem;line-height:1.9;color:var(--cd);font-size:.82rem;font-weight:300}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+.stat{border:1px solid rgba(161,195,221,.2);padding:1.6rem;text-align:center;transition:border-color .3s,background .3s}
+.stat:hover{border-color:var(--b);background:rgba(161,195,221,.04)}
+.snum{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:300;color:var(--b);line-height:1}
+.slb{margin-top:.35rem;font-size:.55rem;letter-spacing:.28em;text-transform:uppercase;color:var(--cd)}
+
+/* PRODUCTS */
+.products{padding:5rem 2.5rem;max-width:1500px;margin:0 auto}
+.sh{text-align:center;margin-bottom:2.5rem}
+.sh h2{font-family:'Cormorant Garamond',serif;font-size:clamp(1.9rem,3.5vw,2.8rem);font-weight:300;color:var(--cr)}
+.sh p{margin-top:.6rem;font-size:.72rem;color:var(--cd);font-weight:300}
+.filters{display:flex;justify-content:center;gap:.8rem;margin-bottom:2rem;flex-wrap:wrap}
+.fb{padding:.45rem 1.3rem;border:1px solid rgba(161,195,221,.28);background:transparent;color:var(--cd);font-family:'Montserrat',sans-serif;font-size:.63rem;letter-spacing:.28em;text-transform:uppercase;cursor:pointer;transition:all .3s}
+.fb.on,.fb:hover{border-color:var(--b);color:var(--b);background:rgba(161,195,221,.07)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:1.3rem}
+
+/* CARD */
+.pc{background:var(--noir2);border:1px solid rgba(161,195,221,.1);transition:border-color .4s,transform .4s;overflow:hidden}
+.pc:hover{border-color:rgba(161,195,221,.38);transform:translateY(-4px)}
+.piw{position:relative;aspect-ratio:1/1;overflow:hidden;background:#0a0a0a}
+.piw img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
+.pc:hover .piw img{transform:scale(1.04)}
+.pov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.88),transparent 55%);opacity:0;transition:opacity .4s;display:flex;align-items:flex-end;justify-content:center;padding-bottom:1.3rem;z-index:5}
+.pc:hover .pov{opacity:1}
+.obtn{display:inline-block;padding:.65rem 1.4rem;background:var(--b);color:var(--noir);font-family:'Montserrat',sans-serif;font-size:.57rem;letter-spacing:.22em;text-transform:uppercase;font-weight:700;transition:background .3s}
+.obtn:hover{background:var(--bl)}
+.product-tag{position:absolute;top:.65rem;left:.65rem;padding:.22rem .7rem;background:var(--b);color:var(--noir);font-size:.46rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;z-index:7}
+.gbadge{position:absolute;bottom:.7rem;left:.65rem;padding:.2rem .5rem;background:rgba(0,0,0,.72);color:var(--cd);font-size:.44rem;letter-spacing:.15em;text-transform:uppercase;z-index:7;transition:opacity .4s}
+.pc:hover .gbadge{opacity:0}
+.pinfo{padding:1rem 1.1rem 1.1rem}
+.pbrand{font-size:.5rem;letter-spacing:.3em;text-transform:uppercase;color:var(--b);margin-bottom:.22rem}
+.pname{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;color:var(--cr);line-height:1.2;margin-bottom:.35rem}
+.pdesc{font-size:.69rem;color:var(--cd);line-height:1.65;font-weight:300;margin-bottom:.6rem;min-height:3rem}
+.pfooter{display:flex;align-items:center;justify-content:space-between;padding-top:.65rem;border-top:1px solid rgba(255,255,255,.06)}
+.pprice{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--b)}
+.wabtn{width:34px;height:34px;border:1px solid rgba(161,195,221,.32);color:var(--b);display:flex;align-items:center;justify-content:center;transition:all .3s}
+.wabtn:hover{background:var(--b);color:var(--noir)}
+.wabtn svg{width:15px;height:15px;fill:currentColor}
+
+/* WHY */
+.why{padding:5rem 3rem;max-width:1150px;margin:0 auto;text-align:center}
+.why h2{font-family:'Cormorant Garamond',serif;font-size:clamp(1.9rem,3.5vw,2.8rem);font-weight:300;color:var(--cr)}
+.fg{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3.5rem}
+.feat{padding:2rem 1.7rem;border:1px solid rgba(161,195,221,.12);transition:border-color .3s,background .3s}
+.feat:hover{border-color:rgba(161,195,221,.32);background:rgba(161,195,221,.03)}
+.ficon{width:44px;height:44px;margin:0 auto 1.2rem;border:1px solid var(--b);display:flex;align-items:center;justify-content:center;color:var(--b)}
+.ficon svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.3}
+.feat h3{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;color:var(--cr);margin-bottom:.6rem}
+.feat p{font-size:.76rem;color:var(--cd);line-height:1.75;font-weight:300}
+
+/* TESTIMONIALS */
+.testi{padding:5rem 3rem;background:var(--noir3);text-align:center}
+.testi h2{font-family:'Cormorant Garamond',serif;font-size:clamp(1.9rem,3.5vw,2.8rem);font-weight:300;color:var(--cr)}
+.tg{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:1150px;margin:2.5rem auto 0}
+.tc{padding:1.8rem;border:1px solid rgba(161,195,221,.13);text-align:left;position:relative}
+.stars{color:var(--b);font-size:.8rem;margin-bottom:.6rem;letter-spacing:.18em}
+.tt{font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;color:var(--cr);line-height:1.65;margin-bottom:.9rem}
+.ta{font-size:.55rem;letter-spacing:.24em;text-transform:uppercase;color:var(--b)}
+.qm{position:absolute;top:.8rem;right:.8rem;font-family:'Cormorant Garamond',serif;font-size:3.5rem;color:rgba(161,195,221,.09);line-height:1}
+
+/* CTA */
+.cta{padding:6rem 3rem;text-align:center;background:radial-gradient(ellipse 55% 75% at 50% 50%,rgba(161,195,221,.06),transparent 70%),var(--noir);border-top:1px solid rgba(161,195,221,.1);border-bottom:1px solid rgba(161,195,221,.1)}
+.cta h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,4.5vw,3.5rem);font-weight:300;color:var(--cr);max-width:650px;margin:.8rem auto;line-height:1.2}
+.cta h2 em{color:var(--b);font-style:italic}
+.cta p{margin:1.2rem auto;max-width:480px;font-size:.8rem;color:var(--cd);line-height:1.85;font-weight:300}
+.wa-big{display:inline-flex;align-items:center;gap:.65rem;padding:1rem 2.8rem;background:var(--b);color:var(--noir);font-family:'Montserrat',sans-serif;font-size:.68rem;letter-spacing:.32em;text-transform:uppercase;font-weight:700;transition:background .3s;margin-top:1.3rem}
+.wa-big:hover{background:var(--bl)}
+.wa-big svg{width:20px;height:20px;fill:currentColor}
+
+/* FOOTER */
+footer{background:#020202;padding:3.5rem 3rem 1.8rem;border-top:1px solid rgba(161,195,221,.1)}
+.fg2{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2.5rem;margin-bottom:2.5rem}
+.flogo{height:44px;width:auto;margin-bottom:.9rem;display:block;object-fit:contain}
+.fbrand p{font-size:.76rem;color:var(--cd);line-height:1.85;font-weight:300;max-width:250px}
+.fcol h4{font-size:.54rem;letter-spacing:.38em;text-transform:uppercase;color:var(--b);margin-bottom:1.1rem}
+.fcol ul{list-style:none}
+.fcol ul li{margin-bottom:.55rem}
+.fcol ul li a{color:var(--cd);font-size:.74rem;font-weight:300;transition:color .3s}
+.fcol ul li a:hover{color:var(--b)}
+.fbot{border-top:1px solid rgba(255,255,255,.05);padding-top:1.2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.8rem}
+.fbot p{font-size:.58rem;color:rgba(168,163,158,.38);letter-spacing:.1em}
+.fbot a{color:rgba(168,163,158,.38)}
+.fbot a:hover{color:var(--b)}
+.fsoc{display:flex;gap:.6rem}
+.sl{width:30px;height:30px;border:1px solid rgba(161,195,221,.22);display:flex;align-items:center;justify-content:center;color:var(--cd);font-size:.65rem;transition:all .3s}
+.sl:hover{border-color:var(--b);color:var(--b)}
+
+/* STICKY */
+.sbar{position:fixed;bottom:0;left:0;right:0;z-index:90;background:rgba(5,5,5,.97);border-top:1px solid rgba(161,195,221,.18);backdrop-filter:blur(12px);padding:.8rem 3rem;display:flex;align-items:center;justify-content:space-between;transform:translateY(100%);transition:transform .4s}
+.sbar.show{transform:translateY(0)}
+.stxt{font-size:.7rem;color:var(--cd)}
+.stxt strong{color:var(--b)}
+.swa{display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1.8rem;background:var(--b);color:var(--noir);font-family:'Montserrat',sans-serif;font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;font-weight:700;transition:background .3s}
+.swa:hover{background:var(--bl)}
+.swa svg{width:15px;height:15px;fill:currentColor}
+
+/* ANIMATIONS */
+@keyframes fu{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pd{0%,100%{transform:translateX(-50%) translateY(0);opacity:.5}50%{transform:translateX(-50%) translateY(6px);opacity:1}}
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .75s ease,transform .75s ease}
+.reveal.vis{opacity:1;transform:translateY(0)}
+.rd1{transition-delay:.11s}
+.rd2{transition-delay:.22s}
+
+@media(max-width:768px){
+  nav{padding:.9rem 1rem}
+  .nlinks{display:none}
+  .promise{grid-template-columns:1fr;gap:2.5rem;padding:3rem 1.2rem}
+  .products{padding:3rem 1rem}
+  .grid{grid-template-columns:repeat(2,1fr);gap:.7rem}
+  .fg{grid-template-columns:1fr;gap:1.2rem}
+  .tg{grid-template-columns:1fr}
+  .fg2{grid-template-columns:1fr 1fr;gap:1.5rem}
+  .cta,.why,.testi{padding:3rem 1.2rem}
+  footer{padding:2.5rem 1.2rem 1.5rem}
+  .sbar{padding:.8rem 1rem}
+  .stats{grid-template-columns:1fr 1fr}
+  .hlogo{height:80px}
+  .pname{font-size:1.05rem}
+}
+</style>
+</head>
+<body>
+<canvas id="cv"></canvas>
+
+<nav>
+  <img src="logo.jpg" alt="NOIR Fragances" class="nlogo">
+  <ul class="nlinks">
+    <li><a href="#productos">Productos</a></li>
+    <li><a href="#nosotros">Nosotros</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="nwa">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.522 5.855L0 24l6.338-1.498A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.651-.51-5.17-1.4l-.371-.22-3.762.889.928-3.654-.242-.381A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+    Comprar
+  </a>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hcont">
+    <p class="hey">Fragancias de autor · 60ml · Argentina</p>
+    <img src="logo.jpg" alt="NOIR Fragances" class="hlogo">
+    <p class="hsub">Aromas intensos · Excelente duración<br>Olé increíble sin pagar de más</p>
+    <div class="hbtns">
+      <a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="btn-b">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.522 5.855L0 24l6.338-1.498A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.651-.51-5.17-1.4l-.371-.22-3.762.889.928-3.654-.242-.381A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+        Comprar por WhatsApp
+      </a>
+      <a href="#productos" class="btn-o">Ver Fragancias</a>
+    </div>
+  </div>
+  <div class="hscroll"><div class="hscroll-line"></div><span>Scroll</span></div>
+</section>
+
+<div class="div"></div>
+
+<section class="promise" id="nosotros">
+  <div class="reveal">
+    <span class="slabel">Nuestra Filosofía</span>
+    <h2 class="ph2">Lujo accesible,<br>aroma <em>inolvidable</em></h2>
+    <p class="pp">En NOIR creemos que oler extraordinario no debería costar una fortuna. Nuestras fragancias están inspiradas en los perfumes más icónicos del mundo, elaboradas con materias primas de primera calidad.</p>
+    <p class="pp" style="margin-top:.8rem">Cada frasco de 60ml es una experiencia sensorial completa, pensada para acompañarte todos los días.</p>
+  </div>
+  <div class="stats reveal rd1">
+    <div class="stat"><div class="snum">60ml</div><div class="slb">Por frasco</div></div>
+    <div class="stat"><div class="snum">8h+</div><div class="slb">Duración</div></div>
+    <div class="stat"><div class="snum">22</div><div class="slb">Fragancias</div></div>
+    <div class="stat"><div class="snum">★ 5</div><div class="slb">Satisfacción</div></div>
+  </div>
+</section>
+
+<div class="div"></div>
+
+<section class="products" id="productos">
+  <div class="sh reveal">
+    <span class="slabel">Colección Completa</span>
+    <h2>Nuestras Fragancias</h2>
+    <p>Pasá el cursor sobre cada perfume para ver el botón de compra</p>
+  </div>
+  <div class="filters">
+    <button class="fb on" onclick="filt('all',this)">Todos</button>
+    <button class="fb" id="bh" onclick="filt('hombre',this)">Hombre</button>
+    <button class="fb" id="bm" onclick="filt('mujer',this)">Mujer</button>
+  </div>
+  <div class="grid">
+<div class="pc reveal" data-cat="hombre">
+  <div class="piw">
+    <img src="q1.jpg" alt="Polo Red" loading="lazy">
+    <div class="pov"><a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="obtn">🛒 Comprar por WhatsApp</a></div>
+    <div class="product-tag">Destacado</div>
+    <div class="gbadge">Hombre · 60ml</div>
+  </div>
+  <div class="pinfo">
+    <div class="pbrand">Ralph Lauren</div>
+    <div class="pname">Polo Red</div>
+    <div class="pdesc">Ardiente y apasionado. Pomelo rojo, canela y madera se fusionan en una fragancia intensa que perdura todo el día.</div>
+    <div class="pfooter">
+      <div class="pprice">$39.999</div>
+      <a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="wabtn" title="Comprar por WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.522 5.855L0 24l6.338-1.498A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.651-.51-5.17-1.4l-.371-.22-3.762.889.928-3.654-.242-.381A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg></a>
+    </div>
+  </div>
+</div>
+<div class="pc reveal rd1" data-cat="mujer">
+  <div class="piw">
+    <img src="q2.jpg" alt="Mon Paris" loading="lazy">
+    <div class="pov"><a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="obtn">🛒 Comprar por WhatsApp</a></div>
+    
+    <div class="gbadge">Mujer · 60ml</div>
+  </div>
+  <div class="pinfo">
+    <div class="pbrand">Yves Saint Laurent</div>
+    <div class="pname">Mon Paris</div>
+    <div class="pdesc">Romántico y parisino. Frambuesa, frutilla y jazmín en perfecta armonía. Un amor a primera vista.</div>
+    <div class="pfooter">
+      <div class="pprice">$39.999</div>
+      <a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="wabtn" title="Comprar por WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.522 5.855L0 24l6.338-1.498A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.651-.51-5.17-1.4l-.371-.22-3.762.889.928-3.654-.242-.381A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg></a>
+    </div>
+  </div>
+</div>
+<div class="pc reveal rd2" data-cat="hombre">
+  <div class="piw">
+    <img src="q3.jpg" alt="212 Men Heroes Forever Young" loading="lazy">
+    <div class="pov"><a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="obtn">🛒 Comprar por WhatsApp</a></div>
+    
+    <div class="gbadge">Hombre · 60ml</div>
+  </div>
+  <div class="pinfo">
+    <div class="pbrand">Carolina Herrera</div>
+    <div class="pname">212 Men Heroes Forever Young</div>
+    <div class="pdesc">Fresco y energizante. Pomelo rojo y jengibre para el hombre audaz que nunca para de moverse.</div>
+    <div class="pfooter">
+      <div class="pprice">$39.999</div>
+      <a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="wabtn" title="Comprar por WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.522 5.855L0 24l6.338-1.498A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.651-.51-5.17-1.4l-.371-.22-3.762.889.928-3.654-.242-.381A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg></a>
+    </div>
+  </div>
+</div>
+<div class="pc reveal" data-cat="mujer">
+  <div class="piw">
+    <img src="q4.jpg" alt="Nina" loading="lazy">
+    <div class="pov"><a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="obtn">🛒 Comprar por WhatsApp</a></div>
+    
+    <div class="gbadge">Mujer · 60ml</div>
+  </div>
+  <div class="pinfo">
+    <div class="pbrand">Nina Ricci</div>
+    <div class="pname">Nina</div>
+    <div class="pdesc">Dulce y delicado como una manzana encantada. Floral y frutal con un corazón de rosa irresistible.</div>
+    <div class="pfooter">
+      <div class="pprice">$39.999</div>
+      <a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="wabtn" title="Comprar por WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.522 5.855L0 24l6.338-1.498A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.651-.51-5.17-1.4l-.371-.22-3.762.889.928-3.654-.242-.381A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg></a>
+    </div>
+  </div>
+</div>
+<div class="pc reveal rd1" data-cat="hombre">
+  <div class="piw">
+    <img src="q5.jpg" alt="Polo Black" loading="lazy">
+    <div class="pov"><a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="obtn">🛒 Comprar por WhatsApp</a></div>
+    
+    <div class="gbadge">Hombre · 60ml</div>
+  </div>
+  <div class="pinfo">
+    <div class="pbrand">Ralph Lauren</div>
+    <div class="pname">Polo Black</div>
+    <div class="pdesc">Misterioso y sofisticado. Mango exótico, sándalo y almizcle oscuro para una noche que no se olvida.</div>
+    <div class="pfooter">
+      <div class="pprice">$39.999</div>
+      <a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="wabtn" title="Comprar por WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.522 5.855L0 24l6.338-1.498A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.651-.51-5.17-1.4l-.371-.22-3.762.889.928-3.654-.242-.381A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg></a>
+    </div>
+  </div>
+</div>
+<div class="pc reveal rd2" data-cat="mujer">
+  <div class="piw">
+    <img src="q6.jpg" alt="212 VIP Rosé" loading="lazy">
+    <div class="pov"><a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="obtn">🛒 Comprar por WhatsApp</a></div>
+    <div class="product-tag">Exclusivo</div>
+    <div class="gbadge">Mujer · 60ml</div>
+  </div>
+  <div class="pinfo">
+    <div class="pbrand">Carolina Herrera</div>
+    <div class="pname">212 VIP Rosé</div>
+    <div class="pdesc">Glamour y sensualidad en rosa. Notas de maracuyá, gardenia y sándalo rosado. ¿Estás en la lista?</div>
+    <div class="pfooter">
+      <div class="pprice">$39.999</div>
+      <a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="wabtn" title="Comprar por WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.522 5.855L0 24l6.338-1.498A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.651-.51-5.17-1.4l-.371-.22-3.762.889.928-3.654-.242-.381A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg></a>
+    </div>
+  </div>
+</div>
+<div class="pc reveal" data-cat="hombre">
+  <div class="piw">
+    <img src="q7.jpg" alt="Invictus Victory" loading="lazy">
+    <div class="pov"><a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="obtn">🛒 Comprar por WhatsApp</a></div>
+    <div class="product-tag">Top Ventas</div>
+    <div class="gbadge">Hombre · 60ml</div>
+  </div>
+  <div class="pinfo">
+    <div class="pbrand">Paco Rabanne</div>
+    <div class="pname">Invictus Victory</div>
+    <div class="pdesc">Vainilla, madera de oud y laurel. El triunfo hecho fragancia, para quienes nunca se rinden.</div>
+    <div class="pfooter">
+      <div class="pprice">$39.999</div>
+      <a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="wabtn" title="Comprar por WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.522 5.855L0 24l6.338-1.498A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.651-.51-5.17-1.4l-.371-.22-3.762.889.928-3.654-.242-.381A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg></a>
+    </div>
+  </div>
+</div>
+<div class="pc reveal rd1" data-cat="mujer">
+  <div class="piw">
+    <img src="q8.jpg" alt="Flower by Kenzo" loading="lazy">
+    <div class="pov"><a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="obtn">🛒 Comprar por WhatsApp</a></div>
+    
+    <div class="gbadge">Mujer · 60ml</div>
+  </div>
+  <div class="pinfo">
+    <div class="pbrand">Kenzo</div>
+    <div class="pname">Flower by Kenzo</div>
+    <div class="pdesc">Amapola roja sobre un fondo de vainilla y almizcle blanco. Poético, suave e inconfundible.</div>
+    <div class="pfooter">
+      <div class="pprice">$39.999</div>
+      <a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="wabtn" title="Comprar por WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.522 5.855L0 24l6.338-1.498A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.651-.51-5.17-1.4l-.371-.22-3.762.889.928-3.654-.242-.381A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg></a>
+    </div>
+  </div>
+</div>
+<div class="pc reveal rd2" data-cat="hombre">
+  <div class="piw">
+    <img src="q9.jpg" alt="Armani Code" loading="lazy">
+    <div class="pov"><a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="obtn">🛒 Comprar por WhatsApp</a></div>
+    
+    <div class="gbadge">Hombre · 60ml</div>
+  </div>
+  <div class="pinfo">
+    <div class="pbrand">Giorgio Armani</div>
+    <div class="pname">Armani Code</div>
+    <div class="pdesc">Limón, lavanda y madera de guayaco. El código secreto de la seducción masculina por excelencia.</div>
+    <div class="pfooter">
+      <div class="pprice">$39.999</div>
+      <a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="wabtn" title="Comprar por WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.522 5.855L0 24l6.338-1.498A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.651-.51-5.17-1.4l-.371-.22-3.762.889.928-3.654-.242-.381A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg></a>
+    </div>
+  </div>
+</div>
+<div class="pc reveal" data-cat="mujer">
+  <div class="piw">
+    <img src="q10.jpg" alt="Eau So Sexy" loading="lazy">
+    <div class="pov"><a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="obtn">🛒 Comprar por WhatsApp</a></div>
+    <div class="product-tag">Top Ventas</div>
+    <div class="gbadge">Mujer · 60ml</div>
+  </div>
+  <div class="pinfo">
+    <div class="pbrand">Victoria's Secret</div>
+    <div class="pname">Eau So Sexy</div>
+    <div class="pdesc">Cereza, frutilla e hibisco en una explosión frutal floral. Fresco, sensual y completamente adictivo.</div>
+    <div class="pfooter">
+      <div class="pprice">$39.999</div>
+      <a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="wabtn" title="Comprar por WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.522 5.855L0 24l6.338-1.498A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.651-.51-5.17-1.4l-.371-.22-3.762.889.928-3.654-.242-.381A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg></a>
+    </div>
+  </div>
+</div>
+<div class="pc reveal rd1" data-cat="mujer">
+  <div class="piw">
+    <img src="q11.jpg" alt="J'adore" loading="lazy">
+    <div class="pov"><a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="obtn">🛒 Comprar por WhatsApp</a></div>
+    <div class="product-tag">Bestseller</div>
+    <div class="gbadge">Mujer · 60ml</div>
+  </div>
+  <div class="pinfo">
+    <div class="pbrand">Christian Dior</div>
+    <div class="pname">J'adore</div>
+    <div class="pdesc">Ylang-ylang, rosa de Damasco y jazmín. El perfume femenino más icónico de la historia de la moda.</div>
+    <div class="pfooter">
+      <div class="pprice">$39.999</div>
+      <a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="wabtn" title="Comprar por WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.522 5.855L0 24l6.338-1.498A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.651-.51-5.17-1.4l-.371-.22-3.762.889.928-3.654-.242-.381A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg></a>
+    </div>
+  </div>
+</div>
+<div class="pc reveal rd2" data-cat="mujer">
+  <div class="piw">
+    <img src="q12.jpg" alt="Good Girl" loading="lazy">
+    <div class="pov"><a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="obtn">🛒 Comprar por WhatsApp</a></div>
+    <div class="product-tag">Destacado</div>
+    <div class="gbadge">Mujer · 60ml</div>
+  </div>
+  <div class="pinfo">
+    <div class="pbrand">Carolina Herrera</div>
+    <div class="pname">Good Girl</div>
+    <div class="pdesc">Jazmín, cacao y café en perfecta armonía. La dualidad entre lo dulce y lo oscuro en cada spray.</div>
+    <div class="pfooter">
+      <div class="pprice">$39.999</div>
+      <a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="wabtn" title="Comprar por WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.522 5.855L0 24l6.338-1.498A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.651-.51-5.17-1.4l-.371-.22-3.762.889.928-3.654-.242-.381A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg></a>
+    </div>
+  </div>
+</div>
+<div class="pc reveal" data-cat="hombre">
+  <div class="piw">
+    <img src="q13.jpg" alt="Pure XS" loading="lazy">
+    <div class="pov"><a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="obtn">🛒 Comprar por WhatsApp</a></div>
+    
+    <div class="gbadge">Hombre · 60ml</div>
+  </div>
+  <div class="pinfo">
+    <div class="pbrand">Paco Rabanne</div>
+    <div class="pname">Pure XS</div>
+    <div class="pdesc">Vainilla, jengibre y cacao tropical. Una fragancia que despierta todos los sentidos masculinos.</div>
+    <div class="pfooter">
+      <div class="pprice">$39.999</div>
+      <a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="wabtn" title="Comprar por WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.522 5.855L0 24l6.338-1.498A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.651-.51-5.17-1.4l-.371-.22-3.762.889.928-3.654-.242-.381A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg></a>
+    </div>
+  </div>
+</div>
+<div class="pc reveal rd1" data-cat="hombre">
+  <div class="piw">
+    <img src="q14.jpg" alt="Invictus Intense" loading="lazy">
+    <div class="pov"><a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="obtn">🛒 Comprar por WhatsApp</a></div>
+    
+    <div class="gbadge">Hombre · 60ml</div>
+  </div>
+  <div class="pinfo">
+    <div class="pbrand">Paco Rabanne</div>
+    <div class="pname">Invictus Intense</div>
+    <div class="pdesc">Maderas profundas, cuero y humo azul. Para el hombre que marca presencia sin decir una palabra.</div>
+    <div class="pfooter">
+      <div class="pprice">$39.999</div>
+      <a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="wabtn" title="Comprar por WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.522 5.855L0 24l6.338-1.498A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.651-.51-5.17-1.4l-.371-.22-3.762.889.928-3.654-.242-.381A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg></a>
+    </div>
+  </div>
+</div>
+<div class="pc reveal rd2" data-cat="hombre">
+  <div class="piw">
+    <img src="q15.jpg" alt="Boss Bottled" loading="lazy">
+    <div class="pov"><a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="obtn">🛒 Comprar por WhatsApp</a></div>
+    
+    <div class="gbadge">Hombre · 60ml</div>
+  </div>
+  <div class="pinfo">
+    <div class="pbrand">Hugo Boss</div>
+    <div class="pname">Boss Bottled</div>
+    <div class="pdesc">Manzana verde, canela y cedro. Un clásico atemporal que nunca falla. Elegante para toda ocasión.</div>
+    <div class="pfooter">
+      <div class="pprice">$39.999</div>
+      <a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="wabtn" title="Comprar por WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.522 5.855L0 24l6.338-1.498A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.651-.51-5.17-1.4l-.371-.22-3.762.889.928-3.654-.242-.381A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg></a>
+    </div>
+  </div>
+</div>
+<div class="pc reveal" data-cat="mujer">
+  <div class="piw">
+    <img src="q16.jpg" alt="Meu Primeiro Humor" loading="lazy">
+    <div class="pov"><a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="obtn">🛒 Comprar por WhatsApp</a></div>
+    <div class="product-tag">Nuevo</div>
+    <div class="gbadge">Mujer · 60ml</div>
+  </div>
+  <div class="pinfo">
+    <div class="pbrand">O Boticário</div>
+    <div class="pname">Meu Primeiro Humor</div>
+    <div class="pdesc">Frutas tropicales, hibisco y flores alegres. Para quienes aman sentir ligereza y buena energía cada día.</div>
+    <div class="pfooter">
+      <div class="pprice">$39.999</div>
+      <a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="wabtn" title="Comprar por WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.522 5.855L0 24l6.338-1.498A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.651-.51-5.17-1.4l-.371-.22-3.762.889.928-3.654-.242-.381A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg></a>
+    </div>
+  </div>
+</div>
+<div class="pc reveal rd1" data-cat="hombre">
+  <div class="piw">
+    <img src="q17.jpg" alt="Météore" loading="lazy">
+    <div class="pov"><a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="obtn">🛒 Comprar por WhatsApp</a></div>
+    <div class="product-tag">Exclusivo</div>
+    <div class="gbadge">Hombre · 60ml</div>
+  </div>
+  <div class="pinfo">
+    <div class="pbrand">Louis Vuitton</div>
+    <div class="pname">Météore</div>
+    <div class="pdesc">Limón, lima y piedra mineral. Fresco y limpio como un amanecer en la montaña. Moderno e irresistible.</div>
+    <div class="pfooter">
+      <div class="pprice">$39.999</div>
+      <a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="wabtn" title="Comprar por WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.522 5.855L0 24l6.338-1.498A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.651-.51-5.17-1.4l-.371-.22-3.762.889.928-3.654-.242-.381A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg></a>
+    </div>
+  </div>
+</div>
+<div class="pc reveal rd2" data-cat="mujer">
+  <div class="piw">
+    <img src="q18.jpg" alt="Poison" loading="lazy">
+    <div class="pov"><a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="obtn">🛒 Comprar por WhatsApp</a></div>
+    
+    <div class="gbadge">Mujer · 60ml</div>
+  </div>
+  <div class="pinfo">
+    <div class="pbrand">Christian Dior</div>
+    <div class="pname">Poison</div>
+    <div class="pdesc">Ciruela, orquídea y especias orientales. Opulento y misterioso — un clásico de seducción irresistible.</div>
+    <div class="pfooter">
+      <div class="pprice">$39.999</div>
+      <a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="wabtn" title="Comprar por WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.522 5.855L0 24l6.338-1.498A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.651-.51-5.17-1.4l-.371-.22-3.762.889.928-3.654-.242-.381A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg></a>
+    </div>
+  </div>
+</div>
+<div class="pc reveal" data-cat="hombre">
+  <div class="piw">
+    <img src="q19.jpg" alt="Sauvage" loading="lazy">
+    <div class="pov"><a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="obtn">🛒 Comprar por WhatsApp</a></div>
+    <div class="product-tag">Top Ventas</div>
+    <div class="gbadge">Hombre · 60ml</div>
+  </div>
+  <div class="pinfo">
+    <div class="pbrand">Dior</div>
+    <div class="pname">Sauvage</div>
+    <div class="pdesc">Bergamota fresca, pimienta y ambroxan. El perfume masculino más vendido del mundo. Sin explicaciones.</div>
+    <div class="pfooter">
+      <div class="pprice">$39.999</div>
+      <a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="wabtn" title="Comprar por WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.522 5.855L0 24l6.338-1.498A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.651-.51-5.17-1.4l-.371-.22-3.762.889.928-3.654-.242-.381A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg></a>
+    </div>
+  </div>
+</div>
+<div class="pc reveal rd1" data-cat="mujer">
+  <div class="piw">
+    <img src="q20.jpg" alt="Scandal" loading="lazy">
+    <div class="pov"><a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="obtn">🛒 Comprar por WhatsApp</a></div>
+    
+    <div class="gbadge">Mujer · 60ml</div>
+  </div>
+  <div class="pinfo">
+    <div class="pbrand">Jean Paul Gaultier</div>
+    <div class="pname">Scandal</div>
+    <div class="pdesc">Miel, frambuesa y gardenia. Audaz y provocador — para quien no teme destacarse en cualquier lugar.</div>
+    <div class="pfooter">
+      <div class="pprice">$39.999</div>
+      <a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="wabtn" title="Comprar por WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.522 5.855L0 24l6.338-1.498A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.651-.51-5.17-1.4l-.371-.22-3.762.889.928-3.654-.242-.381A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg></a>
+    </div>
+  </div>
+</div>
+<div class="pc reveal rd2" data-cat="hombre">
+  <div class="piw">
+    <img src="q21.jpg" alt="1 Millón Lucky" loading="lazy">
+    <div class="pov"><a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="obtn">🛒 Comprar por WhatsApp</a></div>
+    <div class="product-tag">Top Ventas</div>
+    <div class="gbadge">Hombre · 60ml</div>
+  </div>
+  <div class="pinfo">
+    <div class="pbrand">Paco Rabanne</div>
+    <div class="pname">1 Millón Lucky</div>
+    <div class="pdesc">Ciruela, avellana y madera dorada. Suerte, audacia y un magnetismo que no pasa desapercibido.</div>
+    <div class="pfooter">
+      <div class="pprice">$39.999</div>
+      <a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="wabtn" title="Comprar por WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.522 5.855L0 24l6.338-1.498A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.651-.51-5.17-1.4l-.371-.22-3.762.889.928-3.654-.242-.381A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg></a>
+    </div>
+  </div>
+</div>
+<div class="pc reveal" data-cat="mujer">
+  <div class="piw">
+    <img src="q22.jpg" alt="Olympéa Intense" loading="lazy">
+    <div class="pov"><a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="obtn">🛒 Comprar por WhatsApp</a></div>
+    
+    <div class="gbadge">Mujer · 60ml</div>
+  </div>
+  <div class="pinfo">
+    <div class="pbrand">Paco Rabanne</div>
+    <div class="pname">Olympéa Intense</div>
+    <div class="pdesc">Pimienta rosa, flor de sal y vainilla cálida. Poderosa y sensual — la diosa griega hecha fragancia.</div>
+    <div class="pfooter">
+      <div class="pprice">$39.999</div>
+      <a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="wabtn" title="Comprar por WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.522 5.855L0 24l6.338-1.498A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.651-.51-5.17-1.4l-.371-.22-3.762.889.928-3.654-.242-.381A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg></a>
+    </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<div class="div"></div>
+
+<section class="why">
+  <div class="reveal">
+    <span class="slabel">¿Por Qué NOIR?</span>
+    <h2>La experiencia de lujo,<br>al alcance de todos</h2>
+  </div>
+  <div class="fg">
+    <div class="feat reveal">
+      <div class="ficon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+      <h3>Inspiradas en Originales</h3>
+      <p>Capturamos la esencia de los perfumes más icónicos del mundo con resultados que sorprenden desde la primera aplicación.</p>
+    </div>
+    <div class="feat reveal rd1">
+      <div class="ficon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+      <h3>Más de 8 Horas</h3>
+      <p>Fórmulas optimizadas para proyección y duración excepcionales. El aroma te acompaña todo el día sin retoques.</p>
+    </div>
+    <div class="feat reveal rd2">
+      <div class="ficon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+      <h3>Atención Personalizada</h3>
+      <p>Escribinos por WhatsApp y te ayudamos a elegir la fragancia perfecta. Respuesta rápida y trato directo.</p>
+    </div>
+  </div>
+</section>
+
+<section class="testi">
+  <div class="reveal">
+    <span class="slabel">Lo Que Dicen</span>
+    <h2>Quienes ya eligieron NOIR</h2>
+  </div>
+  <div class="tg">
+    <div class="tc reveal"><div class="qm">"</div><div class="stars">★★★★★</div><p class="tt">El Sauvage es increíble. Dura todo el día y recibo cumplidos constantemente. No puedo creer la calidad a ese precio.</p><div class="ta">— Matías G., Buenos Aires</div></div>
+    <div class="tc reveal rd1"><div class="qm">"</div><div class="stars">★★★★★</div><p class="tt">Good Girl es mi perfume favorito ahora. Proyección impresionante, ya hice mi tercera compra. Simplemente perfecto.</p><div class="ta">— Valentina R., Córdoba</div></div>
+    <div class="tc reveal rd2"><div class="qm">"</div><div class="stars">★★★★★</div><p class="tt">El 1 Millón Lucky es exactamente lo que buscaba. Precio imbatible, calidad de lujo. Lo recomiendo a todos.</p><div class="ta">— Federico L., Rosario</div></div>
+  </div>
+</section>
+
+<section class="cta" id="contacto">
+  <div class="reveal">
+    <span class="slabel">Comunicate con Nosotros</span>
+    <h2>¿Listo para oler <em>increíble</em>?</h2>
+    <p>Escribinos por WhatsApp y te asesoramos para encontrar tu fragancia ideal. Atención personalizada y respuesta rápida.</p>
+    <a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="wa-big">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.522 5.855L0 24l6.338-1.498A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.651-.51-5.17-1.4l-.371-.22-3.762.889.928-3.654-.242-.381A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+      Contactar por WhatsApp
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="fg2">
+    <div class="fbrand">
+      <img src="logo.jpg" alt="NOIR Fragances" class="flogo">
+      <p>Fragancias inspiradas en perfumes originales. 60ml de aroma intenso y duradero. Olé increíble sin pagar de más.</p>
+    </div>
+    <div class="fcol">
+      <h4>Productos</h4>
+      <ul>
+        <li><a href="#productos">Todos los Perfumes</a></li>
+        <li><a href="#" onclick="filt('mujer',document.getElementById('bm'));document.getElementById('productos').scrollIntoView({behavior:'smooth'});return false">Colección Mujer</a></li>
+        <li><a href="#" onclick="filt('hombre',document.getElementById('bh'));document.getElementById('productos').scrollIntoView({behavior:'smooth'});return false">Colección Hombre</a></li>
+      </ul>
+    </div>
+    <div class="fcol">
+      <h4>Comprar</h4>
+      <ul>
+        <li><a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank">WhatsApp</a></li>
+        <li><a href="https://noir58.mitiendanube.com" target="_blank">Tienda Online</a></li>
+        <li><a href="https://noir58.mitiendanube.com/contacto/" target="_blank">Contacto</a></li>
+      </ul>
+    </div>
+    <div class="fcol">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="https://www.argentina.gob.ar/produccion/defensadelconsumidor/formulario" target="_blank">Defensa del Consumidor</a></li>
+        <li><a href="https://noir58.mitiendanube.com/contacto/?order_cancellation_without_id=true" target="_blank">Arrepentimiento de Compra</a></li>
+        <li><span style="color:rgba(168,163,158,.35);font-size:.72rem">CUIT: 27-27272954-0</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="fbot">
+    <p>© 2026 NOIR Fragances. Todos los derechos reservados.</p>
+    <div class="fsoc">
+      <a class="sl" href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank">WA</a>
+      <a class="sl" href="#">IG</a>
+      <a class="sl" href="#">FB</a>
+    </div>
+  </div>
+</footer>
+
+<div class="sbar" id="sb">
+  <div class="stxt"><strong>NOIR Fragances</strong> · 22 aromas · 60ml cada uno</div>
+  <a href="https://wa.me/qr/IJF6E2CQFYZXP1" target="_blank" class="swa">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.522 5.855L0 24l6.338-1.498A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.651-.51-5.17-1.4l-.371-.22-3.762.889.928-3.654-.242-.381A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+    Comprar Ahora
+  </a>
+</div>
+
+<script>
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+function rsz(){cv.width=innerWidth;cv.height=innerHeight}rsz();
+window.addEventListener('resize',rsz);
+const pts=Array.from({length:45},()=>({x:Math.random()*cv.width,y:Math.random()*cv.height,r:Math.random()*.9+.2,sx:(Math.random()-.5)*.18,sy:-Math.random()*.28-.05,o:Math.random()*.2+.05}));
+function draw(){ctx.clearRect(0,0,cv.width,cv.height);pts.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(161,195,221,${p.o})`;ctx.fill();p.x+=p.sx;p.y+=p.sy;if(p.y<-4){p.y=cv.height+4;p.x=Math.random()*cv.width}});requestAnimationFrame(draw)}
+draw();
+const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')}),{threshold:.07});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+window.addEventListener('scroll',()=>document.getElementById('sb').classList.toggle('show',scrollY>450));
+function filt(cat,btn){
+  document.querySelectorAll('.fb').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.pc').forEach(c=>{c.style.display=(cat==='all'||c.dataset.cat===cat)?'':'none'});
+}
+</script>
+</body>
+</html>
